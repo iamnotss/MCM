@@ -1,0 +1,54 @@
+# Python / runtime cache
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Environments and secrets
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+*.token
+
+# Model checkpoints and large ML artifacts
+*.bin
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+*.onnx
+checkpoints/
+models/
+weights/
+saves/
+
+# Large raw datasets and temporary runs
+data/raw/
+datasets/
+tmp/
+temp/
+cache/
+work/*.pdf
+work/mplconfig/
+work/matplotlib-cache/
+
+# Keep summaries and manuscript-ready artifacts trackable
+!results/**/*.csv
+!results/**/*.json
+!results/**/*.jsonl
+!results/**/*.md
+!figures/**/*.pdf
+!figures/**/*.png
+!figures/**/*.svg
+!outputs/**/*.pdf
+!outputs/**/*.png
+!outputs/**/*.svg
+
+# OS / editor noise
+.DS_Store
+Thumbs.db
+.vscode/
+!.vscode/extensions.json
