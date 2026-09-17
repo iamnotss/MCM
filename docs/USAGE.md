@@ -178,6 +178,71 @@
 
 先确认接手环境能够访问指定仓库和分支。私有仓库需要授权；只有链接并不自动具备读取、运行或推送权限。
 
+### 网页版 GPT 与 Codex 如何通过 GitHub 协作
+
+可以把 GitHub 当成一个共享笔记本和文件中转站。推荐分工是：Codex 负责改代码、跑实验、生成图表和提交结果；网页版 GPT 负责读取分支中的报告、表格和脚本，帮助分析结果、判断问题并生成下一轮给 Codex 的执行指令。
+
+基本闭环如下：
+
+    Codex 完成代码、实验或图表
+    Codex 将结果 commit 到任务分支并 push 到 GitHub
+    你把仓库、分支、提交编号和关键文件发给网页版 GPT
+    网页版 GPT 基于这些文件分析结果并给出下一步指令
+    你把下一步指令发回 Codex
+    Codex 新建或更新任务分支继续执行
+
+每次 Codex 完成任务后，建议输出如下交接信息：
+
+    仓库：https://github.com/iamnotss/MCM
+    分支：exp/yys-anti-uap-inner-loss
+    提交编号：填写实际提交编号
+    关键文件：
+    - results/anti_uap_smoke/report.md
+    - results/anti_uap_smoke/summary.csv
+    - scripts/run_anti_uap_smoke.py
+    下一步建议：请分析 FPR 是否下降，以及 WSR 和 CIDEr 是否崩塌。
+
+把结果交给网页版 GPT 时，可以这样写：
+
+    请读取这个 GitHub 仓库和分支，并基于实际文件帮我分析结果。
+
+    仓库：https://github.com/iamnotss/MCM
+    分支：exp/yys-anti-uap-inner-loss
+    提交编号：填写实际提交编号
+
+    请优先阅读：
+    - results/anti_uap_smoke/report.md
+    - results/anti_uap_smoke/summary.csv
+    - scripts/run_anti_uap_smoke.py
+
+    任务：判断 anti-UAP inner constraint 是否降低了 FPR，同时是否保持 WSR 和 CIDEr。
+
+    要求：
+    - 先说明实际读取了哪些文件。
+    - 不要假设 GitHub 上没有的 checkpoint 或 raw data。
+    - 区分已确认、推测和无法判断。
+    - 最后生成一段可以直接喂给 Codex 的下一步执行指令。
+
+把网页版 GPT 的建议交回 Codex 时，可以这样写：
+
+    请从以下 GitHub 分支继续：
+
+    仓库：https://github.com/iamnotss/MCM
+    起点分支：exp/yys-anti-uap-inner-loss
+    参考提交：填写实际提交编号
+
+    任务：填写网页版 GPT 给出的执行指令。
+
+    要求：
+    - 新建自己的任务分支，不直接改 main。
+    - 不覆盖已有结果。
+    - 不提交 checkpoint、模型权重、raw data 或密钥。
+    - 保存 report.md、summary.csv 和必要脚本。
+    - 完成后 commit 并 push。
+    - 最后报告新分支、提交编号和关键文件。
+
+如果网页版 GPT 不能直接访问 GitHub，就把 report.md、summary.csv 或关键脚本作为文件上传，或粘贴经过检查的摘要。不要让它根据不存在的仓库内容推测结果。
+
 可以发送：
 
     仓库：https://github.com/iamnotss/MCM
