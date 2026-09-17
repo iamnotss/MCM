@@ -13,7 +13,7 @@ function Sanitize-BranchPart([string]$value) {
     $safe = $safe -replace "-+", "-"
     $safe = $safe.Trim("-", ".", "_")
     if ([string]::IsNullOrWhiteSpace($safe)) {
-        throw "Branch name became empty after sanitization."
+        throw "分支名清理后为空，请使用英文、数字或连字符命名。"
     }
     return $safe
 }
@@ -22,7 +22,7 @@ $branchName = "$(Sanitize-BranchPart $Prefix)/$(Sanitize-BranchPart $Name)"
 
 git rev-parse --is-inside-work-tree *> $null
 if ($LASTEXITCODE -ne 0) {
-    throw "This directory is not a Git repository. Run git init first."
+    throw "当前目录不是 Git 仓库，请先运行 git init。"
 }
 
 $existing = git branch --list $branchName
@@ -32,4 +32,4 @@ if ($existing) {
     git switch -c $branchName
 }
 
-Write-Host "Current branch: $branchName"
+Write-Host "当前分支：$branchName"

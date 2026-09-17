@@ -8,7 +8,7 @@ param(
 $ErrorActionPreference = "Stop"
 git rev-parse --is-inside-work-tree *> $null
 if ($LASTEXITCODE -ne 0) {
-    throw "This directory is not a Git repository. Run git init first."
+    throw "当前目录不是 Git 仓库，请先运行 git init。"
 }
 
 $oldErrorActionPreference = $ErrorActionPreference
@@ -20,10 +20,10 @@ $remoteExists = ($remoteGetExitCode -eq 0 -and -not [string]::IsNullOrWhiteSpace
 
 if ($remoteExists) {
     git remote set-url $Remote $RepoUrl
-    Write-Host "Updated remote '$Remote' to $RepoUrl"
+    Write-Host "已更新远程仓库 '$Remote' 为 $RepoUrl"
 } else {
     git remote add $Remote $RepoUrl
-    Write-Host "Added remote '$Remote' = $RepoUrl"
+    Write-Host "已添加远程仓库 '$Remote' = $RepoUrl"
 }
 
 $branch = (git branch --show-current).Trim()
@@ -31,4 +31,4 @@ if ([string]::IsNullOrWhiteSpace($branch)) {
     $branch = "main"
 }
 
-Write-Host "Next command: git push -u $Remote $branch"
+Write-Host "下一步可运行：git push -u $Remote $branch"

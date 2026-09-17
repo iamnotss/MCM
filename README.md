@@ -1,37 +1,49 @@
-# Codex GitHub Handoff Workspace
+# GitHub 实验与文档交接仓库
 
-This repository is a lightweight handoff point between Codex, web ChatGPT, and any remote experiment environment.
+本仓库用于在本地、远程实验服务器和协作者之间共享代码、配置、实验摘要与论文图表。每次交接提供仓库地址、分支、提交编号和关键文件，减少重复粘贴长日志。
 
-## Intended workflow
+仓库地址：https://github.com/iamnotss/MCM
 
-1. Create a branch for each experiment or writing task.
-2. Commit only code, configs, figures, tables, compact logs, and reports.
-3. Keep model weights, checkpoints, raw datasets, credentials, and private large artifacts out of Git.
-4. Push the branch to GitHub.
-5. Tell the next AI or collaborator the repository, branch name, and key files to inspect.
+## 文档入口
 
-## Quick commands
+- [完整使用说明](docs/USAGE.md)：首次配置、日常使用、多人协作和常见问题。
+- [交接规范](docs/HANDOFF.md)：每次交接需要提供的材料。
+- [分支规范](docs/BRANCHING.md)：命名、同步和合并规则。
+- [AI 交接提示词](docs/WEB_CODEX_PROMPT.md)：可直接填写的中文模板。
+- [实验报告模板](templates/experiment_report.md)：设置、指标、结论和局限。
 
-Create a branch:
+## 基本流程
 
-    ./scripts/new_experiment_branch.ps1 -Name anti-uap-inner-loss
+1. 从同步后的主分支创建自己的任务分支。
+2. 完成修改或实验，整理配置、结果摘要和报告。
+3. 检查待提交文件，提交并推送自己的分支。
+4. 通过合并请求让协作者审阅，再合并到 main。
+5. 交接时提供分支、提交编号和关键文件。
 
-Commit and push current work:
+## 常用操作
 
-    ./scripts/publish_handoff.ps1 -Message "Add anti-UAP smoke test report"
+连接远程仓库：
 
-If no GitHub remote has been configured yet, add one first:
+    .\scripts\connect_github_remote.ps1 -RepoUrl https://github.com/iamnotss/MCM.git
 
-    git remote add origin <YOUR_GITHUB_REPO_URL>
-    git push -u origin main
+创建实验分支：
 
-Or use the helper script:
+    .\scripts\new_experiment_branch.ps1 -Name yys-anti-uap-inner-loss
 
-    ./scripts/connect_github_remote.ps1 -RepoUrl <YOUR_GITHUB_REPO_URL>
-    ./scripts/publish_handoff.ps1 -Message "Initial handoff setup"
+推荐明确选择文件再提交：
 
-## Handoff summary template
+    git status --short
+    git add README.md docs scripts templates .gitignore
+    git diff --cached --stat
+    git commit -m "更新中文说明与交接模板"
+    git push -u origin HEAD
 
-Use templates/experiment_report.md for experiment results, docs/HANDOFF.md for branch handoff notes, and docs/WEB_CODEX_PROMPT.md when handing a branch to web ChatGPT or another AI.
+辅助发布脚本会执行 git add --all，将整个工作区内未被忽略的变更加入提交。确认所有变更都属于本次任务后再使用：
 
-For the full step-by-step workflow, see docs/USAGE.md.
+    .\scripts\publish_handoff.ps1 -Message "补充实验结果报告"
+
+## 文件与访问边界
+
+提交代码、配置、小型 CSV/JSON、图表和报告。模型权重、原始数据、凭据及缓存保留在受控存储中。
+
+提供 GitHub 链接并不自动授予另一个 AI 读取或写入权限。私有仓库需要相应授权；无法访问时提供经过检查的报告和摘要文件。

@@ -1,26 +1,45 @@
-# Prompt For Web ChatGPT Or Another AI
+# 给网页端或其他 AI 的交接提示词
 
-Use this prompt when asking another AI to continue from a GitHub branch.
+先确认对方能够读取该仓库和指定分支。私有仓库需要相应授权；链接本身不是访问权限。不能访问时提供所需报告文件，不要求对方猜测内容。
 
-    Please inspect the GitHub repository and branch below, then continue the task from the committed files.
+## 只读分析模板
 
-    Repository: <GitHub URL>
-    Branch: <branch name>
+    请读取以下仓库中的指定分支，基于实际文件分析结果。
+    仓库：https://github.com/iamnotss/MCM
+    分支：填写实际分支
+    提交编号：填写实际提交编号
+    优先阅读：填写报告、摘要 CSV 和相关脚本路径
+    任务：填写具体问题
 
-    Task:
-    <Describe the concrete next step.>
+    要求：
+    - 先说明实际读取了哪些文件及版本。
+    - 不能访问的内容请明确指出，不要推测实验结果。
+    - 区分已经验证的结论、推测和缺失证据。
+    - 不修改代码，不启动训练，不提交或推送。
+    - 不假定仓库含有被忽略的检查点或原始数据。
 
-    Important rules:
-    - Treat files in the repository as the source of truth.
-    - Do not assume ignored checkpoints, raw data, or private credentials are available in Git.
-    - Read the branch-specific report or README first if present.
-    - Summarize which files you used before drawing conclusions.
-    - If you make changes, commit them to a new branch and report the branch name.
+## 修改与交接模板
 
-## Example
+    请从指定分支和提交开始完成下面的任务。
+    仓库：https://github.com/iamnotss/MCM
+    起点分支：填写起点
+    起点提交：填写提交编号
+    新分支：填写本次任务分支名
+    任务：填写允许修改的范围
+    验证要求：填写需要运行的检查
+    禁止事项：例如不启动长训练、不覆盖正式结果
 
-    Repository: https://github.com/<user>/<repo>
-    Branch: exp/anti-uap-inner-loss
+    在具备权限的环境中，将本次相关文件提交并推送到新分支。
+    不直接推送其他人的分支或 main。
+    完成后报告提交编号、关键文件、验证结果和未解决的问题。
+    如果无法读取或写入仓库，请说明受阻步骤，不要声称已完成。
 
-    Task:
-    Analyze results/anti_uap_smoke/summary.csv and tell me whether the anti-UAP inner constraint reduces FPR without collapsing WSR or CIDEr.
+## 实验分析示例
+
+    请检查 exp/yys-anti-uap-inner-loss 分支。
+    先阅读 results/anti_uap_smoke/report.md 和 summary.csv。
+    判断新增约束是否降低 FPR，同时保留 WSR 和 CIDEr。
+    核实对照组的初始化、训练轮数、验证集和匹配规则是否一致。
+    本次只做分析，不修改损失，也不启动训练。
+
+以上分支和路径是填写示例，需要替换为实际存在的内容。

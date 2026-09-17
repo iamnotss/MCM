@@ -1,37 +1,44 @@
-# Experiment Report
+# 实验报告
 
-## Goal
+## 实验目标
 
-Describe the question this run answers.
+填写本次实验回答的问题，以及不能由本次实验回答的问题。
 
-## Setup
+## 实验设置
 
-- Model:
-- Branch:
-- Commit:
-- Dataset split:
-- Seed:
-- Key config:
+- 模型与原始检查点：
+- 分支与代码提交编号：
+- 编码器及扰动配套来源：
+- 数据划分、样本数与清单路径：
+- 随机种子：
+- 实际配置与执行命令：
+- 训练时长和硬件：
 
-## Metrics
+## 评估指标
 
-| Metric | Value | Notes |
+| 指标 | 数值 | 定义与说明 |
 | --- | ---: | --- |
-| WSR |  |  |
-| FPR |  |  |
-| clean-input hit |  |  |
-| ACC_uti / CIDEr |  |  |
+| WSR | | 水印模型加扰动后的 bus 命中率 |
+| FPR | | 原始未水印模型加同一扰动后的 bus 命中率 |
+| 干净输入命中率 | | 水印模型不加扰动的 bus 命中率 |
+| ACC_uti / CIDEr | | 标明具体任务、尺度和计算方式 |
 
-## Findings
+说明匹配规则、生成参数和验证样本数。这里的 FPR 是查询级命中率，不自动等同于模型级版权误判率。
 
-- 
+## 实验发现
 
-## Files
+- 已确认：
+- 证据支持但尚未确认：
+- 无法判断：
 
-- Results:
-- Figures:
-- Logs:
+## 输出文件
 
-## Limitations
+- 结果摘要与逐样本数据：
+- 图表和绘图脚本：
+- 日志：
+- 未上传的检查点或数据及访问条件：
 
-- 
+## 局限与下一步
+
+- 已失败的检查与潜在混杂因素：
+- 下一步的最小验证任务：

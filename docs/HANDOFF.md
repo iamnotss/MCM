@@ -1,40 +1,38 @@
-# Handoff Protocol
+# 任务交接规范
 
-Use this file as the stable instruction block when asking Codex or another AI to continue from GitHub.
+交接应让接手者不依赖原始聊天记录也能理解当前状态。
 
-## What to push
+## 应提交的材料
 
-- Source code and scripts needed to reproduce the change.
-- Config files and command lines used for each run.
-- Compact result files: CSV, JSON, JSONL, Markdown reports.
-- Manuscript-ready figures: PDF, PNG, SVG.
-- Short logs that explain failures or important diagnostics.
+- 本次修改的代码、训练与评估脚本。
+- 实际生效的配置、执行命令和数据划分说明。
+- 小型 CSV、JSON、JSONL 和 Markdown 结果报告。
+- 论文图表及绘图脚本，标明使用的数据文件。
+- 解释失败原因或关键检查结果的简短日志。
 
-## What not to push
+## 保留在仓库外的材料
 
-- Model checkpoints or weights.
-- Raw datasets that are large, private, or license-restricted.
-- API keys, tokens, .env files, cookies, or account credentials.
-- Full generated caches unless they are essential and small.
+- 模型权重、检查点和大规模原始数据。
+- API 密钥、令牌、登录凭据、Cookie 和环境变量文件。
+- 未授权分发的论文 PDF、受限数据和缓存。
 
-## Branch naming
+忽略规则不会移除已经被 Git 跟踪的文件。报告中的服务器路径也不意味着接手者可以访问该文件。
 
-Use short purpose-specific branches:
+## 交接消息模板
 
-- exp/anti-uap-inner-loss
-- exp/radius-align-smoke
-- fig/umap-diagnostics
-- paper/verification-appendix
+    仓库：https://github.com/iamnotss/MCM
+    分支：填写实际分支名
+    提交编号：填写 git rev-parse HEAD 的输出
+    当前状态：已完成什么，还有什么未完成
+    主要变更：
+    - 填写代码或实验变更
+    关键文件：
+    - 填写报告路径
+    - 填写摘要 CSV 路径
+    下一步：明确希望接手者完成的工作
+    限制：说明能否修改代码、能否启动训练
+    本地材料：说明未上传的检查点、数据及其访问方式
 
-## Final handoff message
+## 结果解释要求
 
-After pushing a branch, report:
-
-    Repository: <GitHub URL>
-    Branch: <branch name>
-    Main changes:
-    - <one-line summary>
-    Key files:
-    - <path/to/file>
-    - <path/to/result.csv>
-    Do not use ignored checkpoints or raw data from Git; they remain local.
+区分实际测量、推测和无法确认的事项。记录代码提交编号、种子、数据清单、模型与扰动配套关系。不同配置的结果放在独立目录，不覆盖失败结果，不把示例路径当成已经存在的文件。
